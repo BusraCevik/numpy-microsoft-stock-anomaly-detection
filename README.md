@@ -74,6 +74,9 @@ microsoft_stock_anomaly_detection/
 │ │ ├── iqr.png
 │ │ ├── ewma.png
 │ │ └── metrics_comparison.png
+│ ├── reports/ 
+│ │ ├── anomaly_counts.csv
+│ │ └── metrics.csv
 │
 ├── src/
 │ ├── data_preparation.py # Data cleaning and preprocessing
