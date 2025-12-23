@@ -31,7 +31,6 @@ The raw CSV data is stored under the `data/raw` directory and preprocessed befor
 
 ### Example Outputs
 
-#### Static Anomaly Plots
 - Z-Score  
 ![Z-Score Plot](outputs/plots/z-score.png)  
 
@@ -51,8 +50,8 @@ The raw CSV data is stored under the `data/raw` directory and preprocessed befor
 ![](docs/demo.gif)
 
 
-
 #### Interactive Anomaly Plot (LIVE)
+🖱️: ̗̀➛
 <a href="https://busracevik.github.io/numpy-microsoft-stock-anomaly-detection/index.html" target="_blank">
 Interactive Anomaly Plot (Live)
 </a>
