@@ -1,43 +1,32 @@
 import numpy as np
 
-"""
-This module computes evaluation metrics such as
-precision, recall, F1-score, and confusion matrix
-for anomaly detection using pseudo ground truth.
-"""
-
 
 def create_pseudo_ground_truth(anomaly_results, min_votes=2):
     """
-    Create pseudo ground truth based on consensus.
-
-    Args:
-        anomaly_results (list of np.ndarray): List of anomaly boolean arrays.
-        min_votes (int): Minimum number of votes to mark a point as anomaly.
-
-    Returns:
-        ground_truth (np.ndarray): Boolean ground truth array.
+    Create pseudo ground truth based on consensus voting.
     """
+    # Sum the binary/boolean votes across all algorithms
     votes = np.sum(anomaly_results, axis=0)
+
+    # Mark as true ground truth if votes meet the minimum threshold
     return votes >= min_votes
 
 
 def compute_metrics(predictions, ground_truth):
     """
-    Compute precision, recall, and F1-score.
-
-    Args:
-        predictions (np.ndarray): Predicted anomaly array.
-        ground_truth (np.ndarray): Ground truth anomaly array.
-
-    Returns:
-        metrics (dict): Precision, Recall, F1-score, TP, FP, FN, TN
+    Compute evaluation metrics: precision, recall, and F1-score.
     """
-    tp = np.sum((predictions == 1) & (ground_truth == 1))
-    fp = np.sum((predictions == 1) & (ground_truth == 0))
-    fn = np.sum((predictions == 0) & (ground_truth == 1))
-    tn = np.sum((predictions == 0) & (ground_truth == 0))
+    # Ensure inputs are evaluated as boolean masks
+    pred_mask = predictions.astype(bool)
+    gt_mask = ground_truth.astype(bool)
 
+    # Compute confusion matrix components
+    tp = int(np.sum(pred_mask & gt_mask))
+    fp = int(np.sum(pred_mask & ~gt_mask))
+    fn = int(np.sum(~pred_mask & gt_mask))
+    tn = int(np.sum(~pred_mask & ~gt_mask))
+
+    # Calculate precision, recall, and F1-score with division safety
     precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
     recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
     f1 = (

@@ -1,43 +1,29 @@
 import numpy as np
 
-"""
-This module implements anomaly detection using
-Exponentially Weighted Moving Average (EWMA).
-EWMA gives more importance to recent observations,
-making it suitable for trend-aware anomaly detection.
-"""
-
 
 def ewma_anomaly_detection(series, alpha=0.3, threshold=3.0):
     """
-    Detect anomalies using EWMA.
-
-    Args:
-        series (np.ndarray): Input time series data.
-        alpha (float): Smoothing factor (0 < alpha <= 1).
-        threshold (float): Multiplier for standard deviation.
-
-    Returns:
-        anomalies (np.ndarray): Boolean array indicating anomalies.
-        ewma (np.ndarray): EWMA values.
-        ewma_std (np.ndarray): Rolling standard deviation of EWMA residuals.
+    Detect anomalies using Exponentially Weighted Moving Average (EWMA).
     """
     ewma = np.zeros_like(series, dtype=float)
     ewma[0] = series[0]
 
-    # Compute EWMA values
+    # Calculate EWMA values sequentially
     for i in range(1, len(series)):
         ewma[i] = alpha * series[i] + (1 - alpha) * ewma[i - 1]
 
-    # Residuals between actual values and EWMA
+    # Calculate residuals between actual values and EWMA
     residuals = series - ewma
 
-    # Rolling standard deviation of residuals
-    ewma_std = np.zeros_like(series, dtype=float)
-    for i in range(1, len(series)):
-        ewma_std[i] = np.std(residuals[:i + 1])
+    # Calculate the global standard deviation of residuals for stability
+    residual_std = np.std(residuals)
+    if residual_std == 0:
+        residual_std = 1e-8
 
-    # Anomaly condition
+    # Create a broadcasted array for compatibility with main.py output
+    ewma_std = np.full_like(series, fill_value=residual_std, dtype=float)
+
+    # Mark anomalies where absolute residuals exceed the threshold
     anomalies = np.abs(residuals) > threshold * ewma_std
 
     return anomalies, ewma, ewma_std

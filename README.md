@@ -5,7 +5,7 @@ The goal is to compare different methods and visualize their results.
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 Anomaly detection in time series is a crucial task in domains such as finance, cybersecurity, and system monitoring.  
 In this project, several widely used statistical techniques are applied to stock price data to identify unusual patterns and sudden deviations.
@@ -18,7 +18,7 @@ The project provides:
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 The dataset consists of historical Microsoft (MSFT) stock price data.
 
@@ -51,14 +51,14 @@ The raw CSV data is stored under the `data/raw` directory and preprocessed befor
 
 
 #### Interactive Anomaly Plot (LIVE)
-🖱️: ̗̀➛
+
 <a href="https://busracevik.github.io/numpy-microsoft-stock-anomaly-detection/index.html" target="_blank">
 Interactive Anomaly Plot (Live)
 </a>
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 microsoft_stock_anomaly_detection/
@@ -98,7 +98,7 @@ microsoft_stock_anomaly_detection/
 
 ```
 
-## 🛠 Technologies Used
+## Technologies Used
 
 - **Python** – Core programming language
 - **NumPy** – Numerical computations and time series processing
@@ -109,7 +109,7 @@ microsoft_stock_anomaly_detection/
 
 ---
 
-## 🧠 Implemented Anomaly Detection Algorithms
+## Implemented Anomaly Detection Algorithms
 
 ### Z-Score
 Detects anomalies based on how many standard deviations a data point is away from the mean.  

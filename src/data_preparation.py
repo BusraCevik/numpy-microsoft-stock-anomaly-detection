@@ -2,47 +2,31 @@ import pandas as pd
 import numpy as np
 import os
 
-"""
-This module handles preprocessing of raw stock data.
-It sorts the data by date, removes missing values, 
-and optionally applies a log transformation. The processed
-data is saved as a NumPy array for easy use in anomaly detection algorithms.
-"""
-
 
 def prepare_stock_data(input_path, output_path, column="Close", log_transform=False):
     """
-    Prepares stock data for anomaly detection.
-
-    Steps:
-    1. Load CSV data.
-    2. Convert 'Date' column to datetime.
-    3. Sort by date.
-    4. Remove missing values in the selected column.
-    5. Convert the selected column to NumPy array of floats.
-    6. Optionally apply log transformation.
-    7. Save the processed array to disk.
-
-    Args:
-        input_path (str): Path to raw CSV file.
-        output_path (str): Path to save processed NumPy array.
-        column (str): Column to use (default: 'Close').
-        log_transform (bool): Apply log transform if True.
-
-    Returns:
-        dates (np.ndarray): Array of datetime objects.
-        values (np.ndarray): Array of processed stock values.
+    Load raw CSV data, sort by date, clean missing values, and save as NumPy array.
     """
+    # Load dataset
     df = pd.read_csv(input_path)
+
+    # Convert date column to datetime format
     df["Date"] = pd.to_datetime(df["Date"])
+
+    # Sort data chronologically
     df = df.sort_values("Date")
+
+    # Remove rows with missing target column values
     df = df.dropna(subset=[column])
 
+    # Extract target values as float array
     values = df[column].values.astype(float)
 
+    # Apply log transformation if requested
     if log_transform:
         values = np.log(values)
 
+    # Save processed numpy array
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     np.save(output_path, values)
 

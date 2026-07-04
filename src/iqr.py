@@ -1,32 +1,22 @@
 import numpy as np
 
-"""
-This module implements anomaly detection using the
-Interquartile Range (IQR) method. Data points that fall
-outside the lower and upper bounds are considered anomalies.
-"""
-
 
 def iqr_anomaly_detection(series, multiplier=1.5):
     """
-    Detect anomalies using the IQR method.
-
-    Args:
-        series (np.ndarray): Input time series data.
-        multiplier (float): IQR multiplier (default: 1.5).
-
-    Returns:
-        anomalies (np.ndarray): Boolean array indicating anomalies.
-        lower_bound (float): Lower threshold.
-        upper_bound (float): Upper threshold.
+    Detect anomalies using the Interquartile Range (IQR) method.
     """
+    # Calculate the first and third quartiles
     q1 = np.percentile(series, 25)
     q3 = np.percentile(series, 75)
+
+    # Compute the interquartile range
     iqr = q3 - q1
 
+    # Define lower and upper anomaly bounds
     lower_bound = q1 - multiplier * iqr
     upper_bound = q3 + multiplier * iqr
 
+    # Identify data points falling outside the limits
     anomalies = (series < lower_bound) | (series > upper_bound)
 
     return anomalies, lower_bound, upper_bound
