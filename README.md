@@ -92,7 +92,6 @@ microsoft_stock_anomaly_detection/
 ├── docs/
 │ ├── demo.gif 
 │ └── index.html # Interactive dashboard (GitHub Pages)
-│
 ├── main.py # Project entry point
 └── README.md
 
